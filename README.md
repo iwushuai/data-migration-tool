@@ -451,11 +451,11 @@ business:
 
 # MYSQL 数据库配置 
 mysql:
-  host: 10.248.22.138
+  host: 
   port: 3306
-  user: billing
-  password: '80b4d877550de350ff4bd650625f923e'
-  dbname: boss_billing
+  user: 
+  password: ''
+  dbname: 
   charset: utf8
   # 池中的初始空闲连接数（0 表示启动时没有建立连接）
   mincached: 2
@@ -471,9 +471,9 @@ mysql:
 # ElasticSearch 搜索引擎配置
 es:
   hosts:
-  - { 'host':'10.248.50.224', 'port': 9001, 'http_auth': '014b58793dd2fed9ce982fcdac87e22a0333595e261ee867', 'timeout': 120}
-  - { 'host':'10.248.50.224', 'port': 9002, 'http_auth': '014b58793dd2fed9ce982fcdac87e22a0333595e261ee867', 'timeout': 120}
-  - { 'host':'10.248.50.224', 'port': 9003, 'http_auth': '014b58793dd2fed9ce982fcdac87e22a0333595e261ee867', 'timeout': 120}
+  - { 'host':'', 'port': 9001, 'http_auth': '', 'timeout': 120}
+  - { 'host':'', 'port': 9002, 'http_auth': '', 'timeout': 120}
+  - { 'host':'', 'port': 9003, 'http_auth': '', 'timeout': 120}
 ```
 
 创建数据模型（支持多次运行）
