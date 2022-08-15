@@ -512,10 +512,6 @@ es:
   - { 'host':'10.248.50.224', 'port': 9003, 'http_auth': '014b58793dd2fed9ce982fcdac87e22a0333595e261ee867', 'timeout': 120}
 ```
 
-创建数据模型（支持多次运行）
-
-`python3 init.py`
-
 开始运行作业
 
 `nohup python3 start.py &`
