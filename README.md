@@ -418,8 +418,38 @@ PUT /billing_sur_subscription_detail
 	}
 }
 ```
-
-
+# 常见问题
+## 写入拒绝最佳实践
+[问题描述]
+当文档生成索引速度更快时，ElasticSearch写队列的容量不太可能用尽。
+[解决方式]
+1. 副本数量设置为0， 迁移完成后再增加副本。
+   动态增加副本数量
+   PUT /[index]/_settings
+   {
+	"number_of_replicas": 1
+   }
+2. 
+    
+根据您的工作负载和期望的性能调整批量大小。有关更多信息，请参阅 Elasticsearch 网站上的调整索引速度。
+参考 https://www.elastic.co/guide/en/elasticsearch/reference/master/tune-for-indexing-speed.html
+## 性能优化
+1. 多线程将数据索引到ElasticSearch。
+2. 单次批量数据减少请求次数。_bulk
+   为了了解批量请求的最佳大小，您应该在具有单个分片的单个节点上运行基准测试。首先尝试一次索引 100 个文档，然后是 200 个，然后是 400 个等。
+3. 临时取消设置或增加刷新间隔 单位：s
+   PUT /[index]/_settings
+   {
+	"refresh_interval": 3600
+   }
+4. 临时禁用副本数。
+   PUT /[index]/_settings
+   {
+	"number_of_replicas": 0
+   }
+5. 使用自动生成id，因为Elasticsearch 需要检查同一分片中是否已经存在具有相同 id 的文档。
+6. 索引缓冲区大小
+   如果您的节点只进行繁重的索引，请确保 indices.memory.index_buffer_size足够大，以便为每个分片提供最多 512 MB 的索引缓冲区来执行繁重的索引（除此之外，索引性能通常不会提高）。Elasticsearch 采用该设置（Java 堆的百分比或绝对字节大小），并将其用作所有活动分片的共享缓冲区。非常活跃的分片自然会比执行轻量级索引的分片更多地使用这个缓冲区。
 
 # 如何使用
 
@@ -451,11 +481,11 @@ business:
 
 # MYSQL 数据库配置 
 mysql:
-  host: 
+  host: 10.248.22.138
   port: 3306
-  user: 
-  password: ''
-  dbname: 
+  user: billing
+  password: '80b4d877550de350ff4bd650625f923e'
+  dbname: boss_billing
   charset: utf8
   # 池中的初始空闲连接数（0 表示启动时没有建立连接）
   mincached: 2
@@ -471,9 +501,9 @@ mysql:
 # ElasticSearch 搜索引擎配置
 es:
   hosts:
-  - { 'host':'', 'port': 9001, 'http_auth': '', 'timeout': 120}
-  - { 'host':'', 'port': 9002, 'http_auth': '', 'timeout': 120}
-  - { 'host':'', 'port': 9003, 'http_auth': '', 'timeout': 120}
+  - { 'host':'10.248.50.224', 'port': 9001, 'http_auth': '014b58793dd2fed9ce982fcdac87e22a0333595e261ee867', 'timeout': 120}
+  - { 'host':'10.248.50.224', 'port': 9002, 'http_auth': '014b58793dd2fed9ce982fcdac87e22a0333595e261ee867', 'timeout': 120}
+  - { 'host':'10.248.50.224', 'port': 9003, 'http_auth': '014b58793dd2fed9ce982fcdac87e22a0333595e261ee867', 'timeout': 120}
 ```
 
 创建数据模型（支持多次运行）

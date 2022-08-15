@@ -6,9 +6,11 @@ Author: wushuai
 version: 1.0.0
 Date: 2022-07-26 23:33:07
 LastEditors: wushuai
-LastEditTime: 2022-08-11 11:34:25
+LastEditTime: 2022-08-15 15:18:55
 '''
 import json
+import time
+from tkinter import E
 from elasticsearch import RequestsHttpConnection
 from elasticsearch import Transport
 import traceback
@@ -18,21 +20,19 @@ class ESClient(object):
  
     _index = ""
     _type = ""
-    _conn = ""
     
-    def __init__(self, hosts):
+    def __init__(self, **esConfig):
         # 基于requests实例化es连接池
-        self.hosts = hosts
-        self.conn_pool = Transport(hosts=hosts, connection_class=RequestsHttpConnection).connection_pool
-        self._conn = self.get_conn()
+        self.esConfig = esConfig
+        self._pool = Transport(**esConfig, connection_class=RequestsHttpConnection).connection_pool
  
     def get_conn(self):
         """
         从连接池获取一个连接
         """
-        conn = self.conn_pool.get_connection()
+        conn = self._pool.get_connection()
         return conn
- 
+    
     def request(self, method, url, headers=None, params=None, body=None):
         """
         想es服务器发送一个求情
@@ -44,9 +44,11 @@ class ESClient(object):
         # return    返回体：python内置数据结构
         """
         try:
-            status, headers, body = self._conn.perform_request(method, url, headers=headers, params=params, body=body)
+            conn = self._pool.get_connection()
+            status, headers, body = conn.perform_request(method, url, headers=headers, params=params, body=body)
+            # 注意：此处无需额外关闭连接
         except Exception as e:
-            logger.error(traceback.print_exc())
+            logger.error(traceback.format_exc())
             raise e
 			
         if method == "HEAD":

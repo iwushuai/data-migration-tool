@@ -6,7 +6,7 @@ Author: wushuai
 version: 1.0.0
 Date: 2022-07-25 17:04:00
 LastEditors: wushuai
-LastEditTime: 2022-08-11 11:52:33
+LastEditTime: 2022-08-15 12:21:32
 '''
 from common import *
 from desencrypt import *
@@ -40,14 +40,19 @@ if __name__ == "__main__":
     readMaxLine = int(conf_reader["business"]["readmaxline"])
     # 迁移表集合
     tables = conf_reader["business"]["tables"]
+    # 失败数据保存文件
+    errorFile = conf_reader['business']['errorfile']
+    errorFile = errorFile.format(os.path.dirname(__file__), datetime.datetime.now().strftime('%Y-%m-%d'))
     # 生成MySQL连接
     mysqlConfig = conf_reader["mysql"]
     mysqlClient = geneMysqlClient(mysqlConfig)
     # 生成ElasticSearch连接
     esConfig = conf_reader['es']
     esClient = geneESClient(esConfig)
-    # 生成数据模型
-    Init(esClient, tables).start()
+    
     # 正式运行作业
-    Work(threadMaxWorkers, threadMaxBound, threadNamePrefix, readMaxLine, tables, mysqlClient, esClient).start()
+    #init = Init(esClient, tables)
+    #init.start()
+    Work(threadMaxWorkers, threadMaxBound, threadNamePrefix, readMaxLine, tables, mysqlClient, esClient, errorFile).start()
+    #init.recover()
     
