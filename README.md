@@ -426,7 +426,7 @@ PUT /billing_sur_subscription_detail
 ```
     
 
-## 性能优化
+# 性能优化
 请参阅 Elasticsearch 网站上的调整索引速度。
 参考 https://www.elastic.co/guide/en/elasticsearch/reference/master/tune-for-indexing-speed.html
 1. 多线程将数据索引到ElasticSearch。
