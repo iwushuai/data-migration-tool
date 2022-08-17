@@ -424,22 +424,11 @@ PUT /billing_sur_subscription_detail
 	}
 }
 ```
-# 常见问题
-## 写入拒绝最佳实践
-[问题描述]
-当文档生成索引速度更快时，ElasticSearch写队列的容量不太可能用尽。
-[解决方式]
-1. 副本数量设置为0， 迁移完成后再增加副本。
-   动态增加副本数量
-   PUT /[index]/_settings
-   {
-	"number_of_replicas": 1
-   }
-2. 
     
-根据您的工作负载和期望的性能调整批量大小。有关更多信息，请参阅 Elasticsearch 网站上的调整索引速度。
-参考 https://www.elastic.co/guide/en/elasticsearch/reference/master/tune-for-indexing-speed.html
+
 ## 性能优化
+请参阅 Elasticsearch 网站上的调整索引速度。
+参考 https://www.elastic.co/guide/en/elasticsearch/reference/master/tune-for-indexing-speed.html
 1. 多线程将数据索引到ElasticSearch。
 2. 单次批量数据减少请求次数。_bulk
    为了了解批量请求的最佳大小，您应该在具有单个分片的单个节点上运行基准测试。首先尝试一次索引 100 个文档，然后是 200 个，然后是 400 个等。
