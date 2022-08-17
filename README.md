@@ -518,4 +518,4 @@ es:
 
 查看运行日志
 
-示例：`tail -10f ./logs/billing-20220810-info.log`
+示例：`tail -10f ./logs/data-migration-tool-20220810.log`

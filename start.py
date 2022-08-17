@@ -6,7 +6,7 @@ Author: wushuai
 version: 1.0.0
 Date: 2022-07-25 17:04:00
 LastEditors: wushuai
-LastEditTime: 2022-08-15 12:21:32
+LastEditTime: 2022-08-16 09:43:51
 '''
 from common import *
 from desencrypt import *
@@ -51,8 +51,8 @@ if __name__ == "__main__":
     esClient = geneESClient(esConfig)
     
     # 正式运行作业
-    #init = Init(esClient, tables)
-    #init.start()
+    init = Init(esClient, tables)
+    init.start()
     Work(threadMaxWorkers, threadMaxBound, threadNamePrefix, readMaxLine, tables, mysqlClient, esClient, errorFile).start()
-    #init.recover()
+    init.recover()
     

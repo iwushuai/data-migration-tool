@@ -6,7 +6,7 @@ Author: wushuai
 version: 1.0.0
 Date: 2022-08-11 11:30:51
 LastEditors: wushuai
-LastEditTime: 2022-08-11 20:16:37
+LastEditTime: 2022-08-15 17:52:49
 '''
 from loguru import logger
 import datetime
@@ -17,7 +17,7 @@ import yaml
 日志配置(支持多线程安全！！)
 """
 # 日志文件
-log_file_name = 'billing-{}-info.log'.format(datetime.datetime.now().strftime('%Y%m%d'))
+log_file_name = 'data-migration-tool-{}.log'.format(datetime.datetime.now().strftime('%Y%m%d'))
 log_file_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "logs", log_file_name)
 #logger.remove(handler_id=None)  # 清除logger之前的句柄
 logger.add(log_file_path,  # 可以带有路径 没路径的logger会自己创建
@@ -32,7 +32,7 @@ logger.add(log_file_path,  # 可以带有路径 没路径的logger会自己创�
 1. 引入from global_configy import config_reader
 2. 通过config_reader[key][key]...读取数据
 """
-file_path = os.path.join(os.path.dirname(__file__), "conf", "billing.yml")
+file_path = os.path.join(os.path.dirname(__file__), "conf", "config.yml")
 datas = open(file=file_path, encoding='utf-8').read()
 conf_reader = yaml.load(datas, Loader=yaml.SafeLoader)
 
@@ -42,6 +42,6 @@ conf_reader = yaml.load(datas, Loader=yaml.SafeLoader)
 1. 引入from global_configy import config_reader
 2. 通过config_reader.get([section], [option])读取数据
 '''
-# file_path = os.path.join(os.path.dirname(__file__), "conf", "billing.conf")
+# file_path = os.path.join(os.path.dirname(__file__), "conf", "config.conf")
 # config_reader = configparser.RawConfigParser() 
 # config_reader.read(file_path, "utf-8")
