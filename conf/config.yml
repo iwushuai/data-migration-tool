@@ -35,7 +35,7 @@ mysql:
   # 池中最大空闲连接数（0 或 None 表示无限池大小）
   maxcached: 50
   # 允许的最大连接数（0 或 None 表示任意数量的连接）
-  maxconnections: 100
+  maxconnections: 10
   # 允许线程共享的最大连接数（默认0）
   maxshared: 100
   # 超过最大值的行为（默认False） True-阻塞等待

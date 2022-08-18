@@ -448,8 +448,6 @@ PUT /billing_sur_subscription_detail
 
 # 如何使用
 
-测试域主机`appop@10.248.46.88`，切换`root`用户。
-
 配置脚本参数
 
 详见`./conf/config.yml`
