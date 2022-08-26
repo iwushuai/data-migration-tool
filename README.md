@@ -5,8 +5,6 @@
 ```python
 concurrent 
 	from concurrent.futures import ThreadPoolExecutor, thread
-base64
-	import base64
 pyDes   
 	from pyDes import *
 elasticsearch 版本7.10

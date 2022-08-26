@@ -6,7 +6,7 @@ Author: wushuai
 version: 1.0.0
 Date: 2022-07-27 09:53:48
 LastEditors: wushuai
-LastEditTime: 2022-08-15 15:42:40
+LastEditTime: 2022-08-18 16:07:32
 '''
 from concurrent.futures import ThreadPoolExecutor, thread
 import datetime
@@ -22,6 +22,7 @@ from desencrypt import des_encrypt,des_descrypt
 from bounded_executor import BoundedExecutor
 import sys
 import traceback
+import decimal
 
 class Work(object):
     def __init__(self, threadMaxWorkers, threadMaxBound, threadNamePrefix, readMaxLine, tables, mysqlClient, esClient, errorFile):
@@ -78,8 +79,12 @@ class Work(object):
                     # 日期类型 转换为 字符串类型;bytes转换字符串
                     for key in data.keys():
                         value = data[key]
-                        if isinstance(value, datetime.datetime):
+                        if isinstance(value, datetime.date):
+                            data[key] = value.strftime('%Y-%m-%d')
+                        elif isinstance(value, datetime.datetime):
                             data[key] = value.strftime('%Y-%m-%d %H:%M:%S')
+                        elif isinstance(value, decimal.Decimal):
+                            data[key] = float(value)
                         if isinstance(value, bytes):
                             data[key] = value.decode()
                     # 字典列表 转换为 json数组（字典类型单引号 转换为 json类型双引号，字典类型None 转换为 json类型null）。
