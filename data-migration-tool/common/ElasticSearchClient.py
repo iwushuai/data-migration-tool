@@ -6,7 +6,7 @@ Author: wushuai
 version: 1.0.0
 Date: 2022-07-26 23:33:07
 LastEditors: wushuai
-LastEditTime: 2022-08-15 15:18:55
+LastEditTime: 2022-11-03 18:46:35
 '''
 import json
 import time
@@ -14,9 +14,9 @@ from tkinter import E
 from elasticsearch import RequestsHttpConnection
 from elasticsearch import Transport
 import traceback
-from common import *
+from common.Common import logger
 
-class ESClient(object):
+class ElasticSearchClient(object):
  
     _index = ""
     _type = ""

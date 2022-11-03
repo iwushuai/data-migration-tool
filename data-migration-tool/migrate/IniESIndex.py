@@ -4,18 +4,18 @@ Author: wushuai
 version: 1.0.0
 Date: 2022-08-10 09:58:26
 LastEditors: wushuai
-LastEditTime: 2022-08-11 16:20:36
+LastEditTime: 2022-11-03 18:49:57
 可以输入预定的版权声明、个性签名、空行等
 '''
 import json
 from time import sleep
 import traceback
-from es_client import ESClient
-from desencrypt import *
-from common import *
+from common.ElasticSearchClient import ElasticSearchClient
+from common.DesEncrypt import *
+from common.Common import logger, conf_reader
 
 
-class Init(object):
+class IniESIndex(object):
     esClient = None
     tables = None
 
@@ -116,15 +116,5 @@ def geneESClient(config):
     '''
     for host in config['hosts']:
         host['http_auth'] = des_descrypt(host['http_auth'])
-    return ESClient(**esConfig)
-            
-if __name__ == "__main__":
-    # 迁移表集合
-    tables = conf_reader["business"]["tables"]
-    # 生成ElasticSearch连接
-    esConfig = conf_reader['es']
-    esClient = geneESClient(esConfig)
-    # 运行初始化作业
-    Init(esClient, tables).start()
-
+    return ElasticSearchClient(**config)
     

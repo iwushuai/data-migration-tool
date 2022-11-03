@@ -1,0 +1,28 @@
+
+本脚本使用Python3.9.9版本，并且依赖如下第三方库：
+
+
+concurrent 
+	from concurrent.futures import ThreadPoolExecutor, thread
+pyDes   
+	from pyDes import *
+elasticsearch 版本7.10
+	from elasticsearch import Elasticsearch, RequestsHttpConnection
+	from elasticsearch import Transport
+	from elasticsearch.exceptions import NotFoundError
+traceback	
+	import traceback
+pyyaml
+	import yaml 
+loguru
+	from loguru import logger
+pymysql
+	import pymysql
+	from pymysql.cursors import DictCursor
+DBUtils 版本1.3
+	from DBUtils.PooledDB import PooledDB
+requests
+	import requests
+
+mysql-replication
+	pip install mysql-replication

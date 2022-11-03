@@ -6,25 +6,26 @@ Author: wushuai
 version: 1.0.0
 Date: 2022-07-27 09:53:48
 LastEditors: wushuai
-LastEditTime: 2022-08-18 16:07:32
+LastEditTime: 2022-11-03 18:54:22
 '''
 from concurrent.futures import ThreadPoolExecutor, thread
 import datetime
 from email.policy import default
 import threading
 import time
-from common import *
-from mysql_client import MysqlClient
-from es_client import ESClient
-import json
-import hashlib
-from desencrypt import des_encrypt,des_descrypt
-from bounded_executor import BoundedExecutor
 import sys
 import traceback
 import decimal
+import json
+import hashlib
+import os
+from common.Common import logger, conf_reader
+from common.MysqlClient import MysqlClient
+from common.ElasticSearchClient import ElasticSearchClient
+from common.DesEncrypt import des_encrypt,des_descrypt
+from common.BoundedExecutor import BoundedExecutor
 
-class Work(object):
+class MigrateWork(object):
     def __init__(self, threadMaxWorkers, threadMaxBound, threadNamePrefix, readMaxLine, tables, mysqlClient, esClient, errorFile):
         '''
         初始化作业配置
@@ -121,7 +122,7 @@ class Work(object):
                 file.flush()
                 file.close()
                 
-    def run(self, srcTable, desIndex, pageNum, pageSize, pageTotal):
+    def process(self, srcTable, desIndex, pageNum, pageSize, pageTotal):
         '''
         作业运行步骤: 查询MySQL原始库表,保存ES目标库表
         '''
@@ -139,7 +140,7 @@ class Work(object):
         '''
         通过查询数据总数,计算分页页数,然后交给作业线程run()进行并行处理。
         '''
-        logger.info("=================Work::start()::批处理作业开始...=================")
+        logger.info("=================MigrateWork::start()::批处理作业开始...=================")
         startTime = datetime.datetime.now()
         
         # 开启多线程有界执行器
@@ -156,17 +157,17 @@ class Work(object):
             pageTotal = (dataTotal//pageSize) if (dataTotal%pageSize)==0 else (dataTotal//pageSize+1) 
             # 推送作业队列
             for pageNum in range(pageTotal):
-                future = executor.submit(self.run, srcTable, desIndex, pageNum, pageSize, pageTotal)
+                future = executor.submit(self.process, srcTable, desIndex, pageNum, pageSize, pageTotal)
                 logger.info("==>将作业推入队列: srcTable={}, desIndex={}, pageNum={}, pageSize={}, dataTotal={}, pageTotal={}".format(srcTable, desIndex, pageNum, pageSize, dataTotal, pageTotal))
         
         # 优雅关闭多线程有界执行器
         executor.shutdown()
 
         endTime = datetime.datetime.now()
-        logger.info("==>work::start()::开始时间：{}".format(startTime))
-        logger.info("==>work::start()::结束时间：{}".format(endTime))
-        logger.info("==>work::start()::累计耗时：{}".format(endTime - startTime))
-        logger.info("=================Work::start()::批处理作业结束！=================")
+        logger.info("==>MigrateWork::start()::开始时间：{}".format(startTime))
+        logger.info("==>MigrateWork::start()::结束时间：{}".format(endTime))
+        logger.info("==>MigrateWork::start()::累计耗时：{}".format(endTime - startTime))
+        logger.info("=================MigrateWork::start()::批处理作业结束！=================")
         
     
 

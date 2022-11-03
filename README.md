@@ -24,7 +24,12 @@ DBUtils 版本1.3
 	from DBUtils.PooledDB import PooledDB
 requests
 	import requests
+
+mysql-replication
+	pip install mysql-replication
+	
 ```
+
 
 # 性能评估
 数据要求： 140000000 条
@@ -444,6 +449,28 @@ PUT /billing_sur_subscription_detail
 6. 索引缓冲区大小
    如果您的节点只进行繁重的索引，请确保 indices.memory.index_buffer_size足够大，以便为每个分片提供最多 512 MB 的索引缓冲区来执行繁重的索引（除此之外，索引性能通常不会提高）。Elasticsearch 采用该设置（Java 堆的百分比或绝对字节大小），并将其用作所有活动分片的共享缓冲区。非常活跃的分片自然会比执行轻量级索引的分片更多地使用这个缓冲区。
 
+# 工程结构
+Foo/
+|-- bin/
+|   |-- foo
+|
+|-- foo/				# 存放项目的所有源代码
+|   |-- tests/
+|   |   |-- __init__.py
+|   |   |-- test_main.py
+|   |
+|   |-- __init__.py
+|   |-- main.py
+|
+|-- docs/				# 存放一些文档
+|   |-- conf.py
+|   |-- abc.rst
+|
+|-- setup.py			# 安装、部署、打包的脚本
+|-- requirements.txt	# 存放软件依赖的外部Python包列表
+|-- README.MD 			# 项目说明文件
+
+
 # 如何使用
 
 配置脚本参数
@@ -452,8 +479,10 @@ PUT /billing_sur_subscription_detail
 
 开始运行作业
 
-`nohup python3 start.py &`
+`nohup python3 fullsync.py &`
 
 查看运行日志
 
 示例：`tail -10f ./logs/data-migration-tool-20220810.log`
+
+

@@ -21,7 +21,7 @@ business:
     # - {"srcTable": "sur_subscription_detail", "desIndex": "billing_sur_subscription_detail", "initMapping": True, "mapping": {"settings":{"number_of_shards":6,"number_of_replicas":0},"mappings":{"properties":{"SUBSCRIPTION_ID":{"type":"long"},"EFFECTIVE_DATE":{"type":"date","format":"yyyy-MM-dd HH:mm:ss"},"EXPIRY_DATE":{"type":"date","format":"yyyy-MM-dd HH:mm:ss"},"CHANGE_DATE":{"type":"date","format":"yyyy-MM-dd HH:mm:ss"},"SUBSCRIPTION_DETAIL_ID":{"type":"long"},"SUBSCRIPTION_STATUS_CODE":{"type":"keyword"}}}} ,"startSetting":{"index":{"refresh_interval":"-1","number_of_replicas":0}},"finishedSetting":{"index":{"refresh_interval":"1s","number_of_replicas":1}}} 
   
   # 失败数据保存文件
-  errorfile: '{}/errors/error_file_{}.record'
+  errorfile: '{}/logs/errors/error_file_{}.record'
 
 # MYSQL 数据库配置 
 mysql:
@@ -57,3 +57,4 @@ es:
   - { 'host':'10.248.50.224', 'port': 9001, 'http_auth': '014b58793dd2fed9ce982fcdac87e22a0333595e261ee867', 'timeout': 120}
   - { 'host':'10.248.50.224', 'port': 9002, 'http_auth': '014b58793dd2fed9ce982fcdac87e22a0333595e261ee867', 'timeout': 120}
   - { 'host':'10.248.50.224', 'port': 9003, 'http_auth': '014b58793dd2fed9ce982fcdac87e22a0333595e261ee867', 'timeout': 120}
+  

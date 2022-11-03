@@ -1,0 +1,4 @@
+### VS Code ###
+.vscode/
+__pycache__/
+logs/
